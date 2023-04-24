@@ -6,6 +6,16 @@ var gameCanvas = {
     height: null
 }
 
+class Enemy {
+    constructor (x, y, xDelta, yDelta, radius) {
+        this.x = x;
+        this.y = y;
+        this.xDelta = xDelta;
+        this.yDelta = yDelta;
+        this.radius = radius;
+    }
+}
+
 var gameState = {
     player: {
         x: 400,
@@ -13,25 +23,7 @@ var gameState = {
         speed: 20,
         radius: 30
     },
-    enemies: [
-        {x: 100, y: 100, xDelta: 1, yDelta: 1, speed: 20},  
-        {x: 200, y: 100, xDelta: -1, yDelta: 1, speed: 20},   
-        {x: 100, y: 300, xDelta: 1, yDelta: -1, speed: 20},   
-        {x: 200, y: 300, xDelta: -1, yDelta: -1, speed: 20}, 
-        {x: 100, y: 100, xDelta: 1, yDelta: 1, speed: 20},  
-        {x: 200, y: 100, xDelta: -1, yDelta: 1, speed: 20},   
-        {x: 100, y: 300, xDelta: 1, yDelta: -1, speed: 20},   
-        {x: 200, y: 300, xDelta: -1, yDelta: -1, speed: 20}, 
-        {x: 100, y: 100, xDelta: 1, yDelta: 1, speed: 20},  
-        {x: 200, y: 100, xDelta: -1, yDelta: 1, speed: 20},   
-        {x: 100, y: 300, xDelta: 1, yDelta: -1, speed: 20},   
-        {x: 200, y: 300, xDelta: -1, yDelta: -1, speed: 20}, 
-        {x: 100, y: 100, xDelta: 1, yDelta: 1, speed: 20},  
-        {x: 200, y: 100, xDelta: -1, yDelta: 1, speed: 20},   
-        {x: 100, y: 300, xDelta: 1, yDelta: -1, speed: 20},   
-        {x: 200, y: 300, xDelta: -1, yDelta: -1, speed: 20},              
-    ],
-    enemyRadius: 30
+    enemies: [],
 }
 
 function initRenderEngine() {
@@ -73,38 +65,38 @@ function clearCanvas() {
 
 function updateScene() {
     updateEnemyState();
+    detectCollision();
     drawScene();
 }
 
-function updateEnemyState() {
-    var enemyRadius = gameState.enemyRadius;
-    
-    for(var i = 0; i < gameState.enemies.length; i++) {
-        var xCur = gameState.enemies[i].x; 
-        var yCur = gameState.enemies[i].y; 
-        
-        var xDeltaCur = gameState.enemies[i].xDelta; 
-        var yDeltaCur = gameState.enemies[i].yDelta; 
-        
-        var xDeltaNew = xDeltaCur; 
-        var yDeltaNew = yDeltaCur; 
+function detectCollision() {
+    var player = gameState.player; 
 
-        if (xCur + xDeltaCur + enemyRadius > gameCanvas.width || xCur - enemyRadius + xDeltaCur <= 0) {
-            xDeltaNew *= -1;
+    gameState.enemies.forEach(function(enemy) {
+        var dist = Math.sqrt(
+            Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2)   
+        );
+
+        if (dist < player.radius + enemy.radius) {
+            console.log("Collision Detected");
+            return;
+        }
+    });
+}
+
+function updateEnemyState() {
+    gameState.enemies.forEach(function (enemy) {
+        if (enemy.x + enemy.xDelta + enemy.radius > gameCanvas.width || enemy.x - enemy.radius + enemy.xDelta <= 0) {
+            enemy.xDelta *= -1;
         } 
 
-        if (yCur + yDeltaCur + enemyRadius > gameCanvas.height || yCur - enemyRadius + yDeltaCur <= 0) {
-            yDeltaNew *= -1;
+        if (enemy.y + enemy.yDelta + enemy.radius > gameCanvas.height || enemy.y - enemy.radius + enemy.yDelta <= 0) {
+            enemy.yDelta *= -1;
         }
 
-        var xNew = xCur + xDeltaNew;
-        var yNew = yCur + yDeltaNew;
-    
-        gameState.enemies[i].x = xNew;
-        gameState.enemies[i].y = yNew;
-        gameState.enemies[i].xDelta = xDeltaNew;
-        gameState.enemies[i].yDelta = yDeltaNew;
-    }    
+        enemy.x += enemy.xDelta;
+        enemy.y += enemy.yDelta;
+    });    
 }
 
 function updatePlayerState(direction) {
@@ -126,20 +118,14 @@ function updatePlayerState(direction) {
 
 function drawScene() {
     clearCanvas();
-    
     drawEnemy();
     drawPlayer();
 }
 
 function drawEnemy() {
-    var enemyRadius = gameState.enemyRadius;
-    
-    for(var i = 0; i < gameState.enemies.length; i++) {
-        var x = gameState.enemies[i].x; 
-        var y = gameState.enemies[i].y;
-
-        drawCircle(x, y, enemyRadius, 'black', '#ff0000');
-    }
+    gameState.enemies.forEach(function(enemy) {
+        drawCircle(enemy.x, enemy.y, enemy.radius, 'black', '#ff0000');
+    });
 }
 
 function drawPlayer() {
@@ -150,7 +136,6 @@ function initPlayerInput() {
     document.onkeydown = checkKey;
 
     function checkKey(e) {
-    
         e = e || window.event;
     
         if (e.keyCode == '38') {
@@ -167,7 +152,6 @@ function initPlayerInput() {
         }
 
         e.preventDefault();
-
         console.log(gameState);
     }
 }
@@ -178,20 +162,24 @@ function initGameLoop() {
 }
 
 function initEnemies() {
-    gameState.enemies.forEach(function(enemy){
-        enemy.x = Math.random() * gameCanvas.width - gameState.enemyRadius * 2.5;    
-        enemy.y = Math.random() * gameCanvas.height - gameState.enemyRadius * 2.5;     
-    });
+    var enemyCount = 10 + (Math.random() * 10);
+
+    for (i = 0; i < enemyCount; i++) {
+        var enemy = new Enemy();
+        enemy.radius = 20 + (Math.random() * 10);
+        enemy.x = enemy.radius + Math.random() * (gameCanvas.width - enemy.radius * 2);    
+        enemy.y = enemy.radius + Math.random() * (gameCanvas.height - enemy.radius * 2);     
+        enemy.xDelta = Math.random() > 0.5 ? 1 : -1;
+        enemy.yDelta = Math.random() > 0.5 ? 1 : -1;
+        gameState.enemies.push(enemy);
+    }
 }
 
 function initGame() {
     initRenderEngine();
-    
     initEnemies();
-    
     initGameLoop();
     initPlayerInput();
 }
-
 
 initGame();
