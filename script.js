@@ -99,7 +99,7 @@ function updateEnemyState() {
     });    
 }
 
-function updatePlayerState(direction) {
+function updatePlayerLocation(direction) {
     switch (direction) {
         case "U": 
             gameState.player.y -= gameState.player.speed;
@@ -139,16 +139,16 @@ function initPlayerInput() {
         e = e || window.event;
     
         if (e.keyCode == '38') {
-            updatePlayerState('U');
+            updatePlayerLocation('U');
         }
         else if (e.keyCode == '40') {
-            updatePlayerState('D');
+            updatePlayerLocation('D');
         }
         else if (e.keyCode == '37') {
-            updatePlayerState('L');
+            updatePlayerLocation('L');
         }
         else if (e.keyCode == '39') {
-            updatePlayerState('R');
+            updatePlayerLocation('R');
         }
 
         e.preventDefault();
