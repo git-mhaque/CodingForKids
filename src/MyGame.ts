@@ -19,7 +19,7 @@ class MyGame {
         this.gameState.enemies = new Array<Enemy>();
 
         this.initEnemies();
-        this.initGameLoop();
+        this.initGameLoop(this);
         this.initPlayerInput(this);
     }
 
@@ -114,9 +114,9 @@ class MyGame {
         o.drawScene(o);
     }
 
-    initGameLoop(): void {
+    initGameLoop(o: MyGame): void {
         var fps = 30;
-        setInterval(() => this.updateScene(this), 1000 / fps);
+        setInterval(() => o.updateScene(o), 1000 / fps);
     }
 
     initEnemies(): void {
