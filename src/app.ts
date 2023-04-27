@@ -1,55 +1,45 @@
+import { Enemy } from "./Enemy";
+import { GameCanvas } from "./GameCanvas";
+import { GameState } from "./GameState";
+import { Player } from "./Player";
+
 var canvasId = "gameCanvas"; 
 
-var gameCanvas = {
-    ctx: null,
-    width: null,
-    height: null
-}
+var gameCanvas = new GameCanvas();
+var gameState = new GameState();
 
-class Enemy {
-    constructor (x, y, xDelta, yDelta, radius) {
-        this.x = x;
-        this.y = y;
-        this.xDelta = xDelta;
-        this.yDelta = yDelta;
-        this.radius = radius;
-    }
-}
-
-var gameState = {
-    player: {
-        x: 400,
-        y: 300,
-        speed: 20,
-        radius: 30
-    },
-    enemies: [],
+function initGameState(): void {
+    gameState.player = new Player(400, 300, 20, 30);
+    gameState.enemies = new Array<Enemy>();
 }
 
 function initRenderEngine() {
     var canvas = document.getElementById(canvasId);
-    var ctx = canvas.getContext("2d");
-
+ 
+    // @ts-ignore
+    var ctx = canvas?.getContext("2d");
     gameCanvas.ctx = ctx;
-    gameCanvas.width = canvas.width;
+    
+    // @ts-ignore
+    gameCanvas.width = canvas.width; 
+    
+    // @ts-ignore
     gameCanvas.height = canvas.height;
-
-    console.log(gameCanvas);
 }
 
-function drawLine(x1, y1, x2, y2) {
+function drawLine(x1: number, y1: number, x2: number, y2: number) {
     var ctx = gameCanvas.ctx; 
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.stroke();    
 }
 
-function drawRect(x, y, width, height) {
+function drawRect(x: number, y: number, width: number, height: number) {
     var ctx = gameCanvas.ctx; 
     ctx.strokeRect(x, y, width, height);    
 }
 
-function drawCircle(x, y, radius, strokeStyle, fillStyle) {
+function drawCircle(x: number, y: number, radius: number, strokeStyle: string , fillStyle: string) {
     var ctx = gameCanvas.ctx; 
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
@@ -99,7 +89,7 @@ function updateEnemyState() {
     });    
 }
 
-function updatePlayerLocation(direction) {
+function updatePlayerLocation(direction:string) {
     switch (direction) {
         case "U": 
             gameState.player.y -= gameState.player.speed;
@@ -135,24 +125,22 @@ function drawPlayer() {
 function initPlayerInput() {
     document.onkeydown = checkKey;
 
-    function checkKey(e) {
-        e = e || window.event;
-    
-        if (e.keyCode == '38') {
-            updatePlayerLocation('U');
+    function checkKey(e: KeyboardEvent): void {
+        switch(e.keyCode) {
+            case 38:
+                updatePlayerLocation('U');
+                break;   
+            case 40:
+                updatePlayerLocation('D');
+                break;   
+            case 37:
+                updatePlayerLocation('L');
+                break;   
+            case 39:
+                updatePlayerLocation('R');
+                break;     
         }
-        else if (e.keyCode == '40') {
-            updatePlayerLocation('D');
-        }
-        else if (e.keyCode == '37') {
-            updatePlayerLocation('L');
-        }
-        else if (e.keyCode == '39') {
-            updatePlayerLocation('R');
-        }
-
         e.preventDefault();
-        console.log(gameState);
     }
 }
 
@@ -164,6 +152,7 @@ function initGameLoop() {
 function initEnemies() {
     var enemyCount = 10 + (Math.random() * 10);
 
+    var i: number = 0; 
     for (i = 0; i < enemyCount; i++) {
         var enemy = new Enemy();
         enemy.radius = 20 + (Math.random() * 10);
@@ -177,6 +166,7 @@ function initEnemies() {
 
 function initGame() {
     initRenderEngine();
+    initGameState();
     initEnemies();
     initGameLoop();
     initPlayerInput();
