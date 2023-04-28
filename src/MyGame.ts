@@ -13,12 +13,8 @@ class MyGame {
     constructor() {
         this.gameCanvas = new GameCanvas(this.canvasId);
         this.renderer = new RenderingEngine(this.gameCanvas);
-
-        this.gameState = new GameState();
-        this.gameState.player = new Player(400, 300, 20, 30, this.renderer);
-        this.gameState.enemies = new Array<Enemy>();
-
-        this.initEnemies();
+        this.gameState = new GameState(this.gameCanvas.width, this.gameCanvas.height, this.renderer);
+    
         this.initGameLoop(this);
         this.initPlayerInput(this);
     }
@@ -27,49 +23,12 @@ class MyGame {
         var player = gameState.player;
 
         gameState.enemies.forEach(function (enemy) {
-            var dist = Math.sqrt(
-                Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2)
-            );
-
-            if (dist < player.radius + enemy.radius) {
-                console.log("Collision Detected");
+            if (player.hasCollision(enemy.x, enemy.y, enemy.radius)) {
                 return;
             }
         });
     }
-
-    updateEnemyState(o: MyGame): void {
-        o.gameState.enemies.forEach(function (enemy) {
-            if (enemy.x + enemy.xDelta + enemy.radius > o.gameCanvas.width || enemy.x - enemy.radius + enemy.xDelta <= 0) {
-                enemy.xDelta *= -1;
-            }
-    
-            if (enemy.y + enemy.yDelta + enemy.radius > o.gameCanvas.height || enemy.y - enemy.radius + enemy.yDelta <= 0) {
-                enemy.yDelta *= -1;
-            }
-    
-            enemy.x += enemy.xDelta;
-            enemy.y += enemy.yDelta;
-        });
-    }
-
-    updatePlayerLocation(direction: string): void {
-        switch (direction) {
-            case "U":
-                this.gameState.player.y -= this.gameState.player.speed;
-                break;
-            case "D":
-                this.gameState.player.y += this.gameState.player.speed;
-                break;
-            case "L":
-                this.gameState.player.x -= this.gameState.player.speed;
-                break;
-            case "R":
-                this.gameState.player.x += this.gameState.player.speed;
-                break;
-        }
-    }
-
+ 
     drawScene(o: MyGame): void {
         o.renderer.clearCanvas();
         o.drawEnemy(o.gameState.enemies);
@@ -91,17 +50,17 @@ class MyGame {
 
         function checkKey(e: KeyboardEvent): void {
             switch (e.keyCode) {
-                case 38:
-                    o.updatePlayerLocation('U');
+                case 38: // Up
+                    o.gameState.player.moveUp();
                     break;
-                case 40:
-                    o.updatePlayerLocation('D');
+                case 40: // Down
+                    o.gameState.player.moveDown();
                     break;
-                case 37:
-                    o.updatePlayerLocation('L');
+                case 37: // Left
+                    o.gameState.player.moveLeft();
                     break;
-                case 39:
-                    o.updatePlayerLocation('R');
+                case 39: // Right
+                    o.gameState.player.moveRight();
                     break;
             }
             e.preventDefault();
@@ -109,7 +68,7 @@ class MyGame {
     }
 
     updateScene(o: MyGame): void {
-        o.updateEnemyState(o);
+        o.gameState.updateEnemyState(o.gameCanvas.width, o.gameCanvas.height);
         o.detectCollision(o.gameState);
         o.drawScene(o);
     }
@@ -117,21 +76,6 @@ class MyGame {
     initGameLoop(o: MyGame): void {
         var fps = 30;
         setInterval(() => o.updateScene(o), 1000 / fps);
-    }
-
-    initEnemies(): void {
-        var enemyCount = 10 + (Math.random() * 10);
-
-        var i: number = 0;
-        for (i = 0; i < enemyCount; i++) {
-            var enemy = new Enemy(this.renderer);
-            enemy.radius = 20 + (Math.random() * 10);
-            enemy.x = enemy.radius + Math.random() * (this.gameCanvas.width - enemy.radius * 2);
-            enemy.y = enemy.radius + Math.random() * (this.gameCanvas.height - enemy.radius * 2);
-            enemy.xDelta = Math.random() > 0.5 ? 1 : -1;
-            enemy.yDelta = Math.random() > 0.5 ? 1 : -1;
-            this.gameState.enemies.push(enemy);
-        }
     }
 }
 
