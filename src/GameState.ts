@@ -15,17 +15,19 @@ class GameState {
         this.height = height;
         this.renderer = renderer; 
 
-        this.enemies = new Array<Enemy>();
-        this.player = new Player(400, 300, 20, 30, this.renderer);
-
+        this.initPlayer();
         this.initEnemies();
     }
 
+    initPlayer(): void {
+        this.player = new Player(400, 300, 20, 30, this.renderer);
+    }
+
     initEnemies(): void {
+        this.enemies = new Array<Enemy>();
         var enemyCount = 10 + (Math.random() * 10);
 
-        var i: number = 0;
-        for (i = 0; i < enemyCount; i++) {
+        for (var i = 0; i < enemyCount; i++) {
             var enemy = new Enemy(this.renderer);
             enemy.radius = 20 + (Math.random() * 10);
             enemy.x = enemy.radius + Math.random() * (this.width - enemy.radius * 2);

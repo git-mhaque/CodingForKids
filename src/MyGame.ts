@@ -1,22 +1,32 @@
+import { BaseGame } from "./BaseGame";
 import { Enemy } from "./Enemy";
 import { GameCanvas } from "./GameCanvas";
 import { GameState } from "./GameState";
 import { Player } from "./Player";
 import { RenderingEngine } from "./RenderingEngine";
 
-class MyGame {
+class MyGame extends BaseGame {
     canvasId: string = "gameCanvas";
     gameCanvas: GameCanvas;
     renderer: RenderingEngine;
     gameState: GameState;
 
     constructor() {
+        super();
         this.gameCanvas = new GameCanvas(this.canvasId);
         this.renderer = new RenderingEngine(this.gameCanvas);
         this.gameState = new GameState(this.gameCanvas.width, this.gameCanvas.height, this.renderer);
-    
-        this.initGameLoop(this);
-        this.initPlayerInput(this);
+    }
+
+    update(): void {
+        console.log("Update");
+        this.updateScene(this);
+    }
+
+    updateScene(o: MyGame): void {
+        o.gameState.updateEnemyState(o.gameCanvas.width, o.gameCanvas.height);
+        o.detectCollision(o.gameState);
+        o.drawScene(o);
     }
 
     detectCollision(gameState: GameState): void {
@@ -45,37 +55,20 @@ class MyGame {
         player.draw();
     }
 
-    initPlayerInput(o: MyGame): void {
-        document.onkeydown = checkKey;
-
-        function checkKey(e: KeyboardEvent): void {
-            switch (e.keyCode) {
-                case 38: // Up
-                    o.gameState.player.moveUp();
-                    break;
-                case 40: // Down
-                    o.gameState.player.moveDown();
-                    break;
-                case 37: // Left
-                    o.gameState.player.moveLeft();
-                    break;
-                case 39: // Right
-                    o.gameState.player.moveRight();
-                    break;
-            }
-            e.preventDefault();
-        }
+    handleUpArrow(): void {
+        this.gameState.player.moveUp();
     }
 
-    updateScene(o: MyGame): void {
-        o.gameState.updateEnemyState(o.gameCanvas.width, o.gameCanvas.height);
-        o.detectCollision(o.gameState);
-        o.drawScene(o);
+    handleDownArrow(): void {
+        this.gameState.player.moveDown();
     }
 
-    initGameLoop(o: MyGame): void {
-        var fps = 30;
-        setInterval(() => o.updateScene(o), 1000 / fps);
+    handleLeftArrow(): void {
+        this.gameState.player.moveLeft();
+    }
+
+    handleRightArrow(): void {
+        this.gameState.player.moveRight();
     }
 }
 
