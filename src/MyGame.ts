@@ -15,7 +15,7 @@ class MyGame {
         this.renderer = new RenderingEngine(this.gameCanvas);
 
         this.gameState = new GameState();
-        this.gameState.player = new Player(400, 300, 20, 30);
+        this.gameState.player = new Player(400, 300, 20, 30, this.renderer);
         this.gameState.enemies = new Array<Enemy>();
 
         this.initEnemies();
@@ -23,10 +23,10 @@ class MyGame {
         this.initPlayerInput(this);
     }
 
-    detectCollision(): void {
-        var player = this.gameState.player;
+    detectCollision(gameState: GameState): void {
+        var player = gameState.player;
 
-        this.gameState.enemies.forEach(function (enemy) {
+        gameState.enemies.forEach(function (enemy) {
             var dist = Math.sqrt(
                 Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2)
             );
@@ -72,18 +72,18 @@ class MyGame {
 
     drawScene(o: MyGame): void {
         o.renderer.clearCanvas();
-        o.drawEnemy(o);
-        o.drawPlayer(o);
+        o.drawEnemy(o.gameState.enemies);
+        o.drawPlayer(o.gameState.player);
     }
 
-    drawEnemy(o: MyGame): void {
-        o.gameState.enemies.forEach(function (enemy) {
-            o.renderer.drawCircle(enemy.x, enemy.y, enemy.radius, 'black', '#ff0000');
+    drawEnemy(enemies: Array<Enemy>): void {
+        enemies.forEach(function (enemy) {
+            enemy.draw();
         });
     }
 
-    drawPlayer(o: MyGame): void {
-        o.renderer.drawCircle(o.gameState.player.x, o.gameState.player.y, o.gameState.player.radius, 'black', '#0000ff');
+    drawPlayer(player: Player): void {
+        player.draw();
     }
 
     initPlayerInput(o: MyGame): void {
@@ -110,7 +110,7 @@ class MyGame {
 
     updateScene(o: MyGame): void {
         o.updateEnemyState(o);
-        o.detectCollision();
+        o.detectCollision(o.gameState);
         o.drawScene(o);
     }
 
@@ -124,7 +124,7 @@ class MyGame {
 
         var i: number = 0;
         for (i = 0; i < enemyCount; i++) {
-            var enemy = new Enemy();
+            var enemy = new Enemy(this.renderer);
             enemy.radius = 20 + (Math.random() * 10);
             enemy.x = enemy.radius + Math.random() * (this.gameCanvas.width - enemy.radius * 2);
             enemy.y = enemy.radius + Math.random() * (this.gameCanvas.height - enemy.radius * 2);
