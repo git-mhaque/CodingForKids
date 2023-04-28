@@ -1,12 +1,25 @@
+import { GameCanvas } from "./GameCanvas";
+import { GameContext } from "./GameContext";
+import { RenderingEngine } from "./RenderingEngine";
+
 export abstract class BaseGame {
+    private canvasId: string = "gameCanvas";
+    private gameCanvas: GameCanvas;
+    private renderer: RenderingEngine;
+    private gameContext: GameContext;
+    private fps: number = 30;
+    
     constructor() {
+        this.gameCanvas = new GameCanvas(this.canvasId);
+        this.renderer = new RenderingEngine(this.gameCanvas);
+        this.gameContext = new GameContext(this.gameCanvas.width, this.gameCanvas.height, this.renderer);
+
         this.initKeyboardInput(this);
         this.initGameLoop(this);
     }
 
     initGameLoop(o: BaseGame): void {
-        var fps = 30;
-        setInterval(() => o.update(), 1000 / fps);
+        setInterval(() => o.update(), 1000 / this.fps);
     }
 
     initKeyboardInput(o: BaseGame): void {
@@ -31,7 +44,16 @@ export abstract class BaseGame {
         }
     }
 
-    abstract update(): void;
+    getGameContext(): GameContext {
+        return this.gameContext;
+    }
+
+    update(): void {
+        this.updateState();
+        this.updateView();
+    }
+    abstract updateState(): void;
+    abstract updateView(): void;
     abstract handleUpArrow(): void;
     abstract handleDownArrow(): void;
     abstract handleLeftArrow(): void;

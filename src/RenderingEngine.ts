@@ -1,6 +1,6 @@
 import { GameCanvas } from "./GameCanvas";
 
-class RenderingEngine {
+export class RenderingEngine {
     gameCanvas: GameCanvas;
 
     constructor(gameCanvas: GameCanvas) {
@@ -33,5 +33,3 @@ class RenderingEngine {
         this.gameCanvas.ctx.clearRect(0, 0, this.gameCanvas.width, this.gameCanvas.height);
     }
 }
-
-export { RenderingEngine }

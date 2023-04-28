@@ -1,6 +1,6 @@
 import { RenderingEngine } from "./RenderingEngine";
 
-class Enemy {
+export class Enemy {
     x: number;
     y: number;
     xDelta: number;
@@ -16,5 +16,3 @@ class Enemy {
         this.renderer.drawCircle(this.x, this.y, this.radius, 'black', '#ff0000');
     }
 }
-
-export { Enemy }

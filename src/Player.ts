@@ -1,6 +1,6 @@
 import { RenderingEngine } from "./RenderingEngine";
 
-class Player {
+export class Player {
     private x: number;
     private y: number;
     private speed: number;
@@ -48,5 +48,3 @@ class Player {
         return false;
     }
 }
-
-export { Player }

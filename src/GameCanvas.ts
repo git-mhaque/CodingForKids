@@ -1,4 +1,4 @@
-class GameCanvas {
+export class GameCanvas {
     ctx: any;
     width: number;
     height: number;
@@ -16,5 +16,3 @@ class GameCanvas {
         this.height = canvas.height;
     }
 }
-
-export { GameCanvas }
