@@ -15,7 +15,9 @@ export class MyGame extends BaseGame {
     }
 
     updateView(): void {
-        this.gameState.clearView();
+        //TODO: refactor these: GameState should not be responsible for updating views.
+        //TODO: create a separate class called GameViewRenderer 
+        this.gameState.clearView(); 
         this.gameState.drawEnemies();
         this.gameState.drawPlayer();
     }
