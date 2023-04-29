@@ -16,6 +16,7 @@ export abstract class BaseGame {
 
         this.initKeyboardInput(this);
         this.initGameLoop(this);
+        this.initState();
     }
 
     initGameLoop(o: BaseGame): void {
@@ -50,10 +51,11 @@ export abstract class BaseGame {
 
     update(): void {
         this.updateState();
-        this.updateView();
+        this.updateView(this.renderer);
     }
+    abstract initState(): void;
     abstract updateState(): void;
-    abstract updateView(): void;
+    abstract updateView(toolbox: RenderingEngine): void;
     abstract handleUpArrow(): void;
     abstract handleDownArrow(): void;
     abstract handleLeftArrow(): void;

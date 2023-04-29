@@ -4,8 +4,7 @@ import { GameState } from "./GameState";
 export class MyGame extends BaseGame {
     private gameState: GameState;
 
-    constructor() {
-        super();
+    initState(): void {
         this.gameState = new GameState(this.getGameContext());
     }
 
