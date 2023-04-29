@@ -1,5 +1,7 @@
 ## Learning to code and have fun
-This is a fun activity for school kids to learn coding concepts with the help of a parent or an adult who is familiar with some fundamental coding/programming concepts. 
+This is an initiative to teach coding/programming concepts to school kids.
+
+This is a fun activity for school kids to learn coding concepts with the help of a parent or an adult who has some fundamental coding concepts. 
 
 The kids will be building a game by completing a series of lessons while learning various coding concepts and having fun at the same time. 
 
@@ -7,8 +9,8 @@ The kids will be building a game by completing a series of lessons while learnin
 We will be building a single-player 2D game with multiple moving enemies and treasure objects. The objective of the player is to collect all the treasures by avoiding any collisions with the enemies. The player will lose health if collided with an enemy. The player will also lose a life when the health indicator becomes empty. A player will have three lives to complete the mission by collecting all treasures. 
 
 ## What concepts will we learn? 
-- Integrated Development Environment (IDE) - VS Code   
-- Organisation of source code files 
+- Integrated Development Environment (IDE)   
+- Organization of source code files 
 - Using built-in functions 
 - Variables 
 - Creating functions 
@@ -25,7 +27,7 @@ We will be building a single-player 2D game with multiple moving enemies and tre
 
 |Lessons   | Contents                               | Concepts                             |
 |----------|----------------------------------------|--------------------------------------|
-|Lesson 1  | Drawing some basic shapes              | IDE, source code, built-in fucntions |
+|Lesson 1  | Drawing some basic shapes              | IDE, source code, built-in functions |
 |Lesson 2  | Adding details to shapes               | Built-in functions                   |
 |Lesson 3  | Moving a basic shape                   | Variables and keyboard input         |
 |Lesson 4  | Restricting the movement of a shape    | Control flow and conditional logic   |

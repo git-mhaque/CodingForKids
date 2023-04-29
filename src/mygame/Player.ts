@@ -1,13 +1,13 @@
-import { RenderingEngine } from "../framework/RenderingEngine";
+import { DrawingToolbox } from "../framework/DrawingToolbox";
 
 export class Player {
     private x: number;
     private y: number;
     private speed: number;
     private radius: number;
-    private renderer: RenderingEngine;
+    private renderer: DrawingToolbox;
 
-    constructor(x: number, y: number, speed: number, radius: number, renderer: RenderingEngine) {
+    constructor(x: number, y: number, speed: number, radius: number, renderer: DrawingToolbox) {
         this.x = x;
         this.y = y;
         this.speed = speed;
