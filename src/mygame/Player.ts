@@ -1,4 +1,4 @@
-import { RenderingEngine } from "./RenderingEngine";
+import { RenderingEngine } from "../framework/RenderingEngine";
 
 export class Player {
     private x: number;

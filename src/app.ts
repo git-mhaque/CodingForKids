@@ -1,3 +1,3 @@
-import { MyGame } from "./MyGame";
+import { MyGame } from "./mygame/MyGame"
 
 new MyGame();

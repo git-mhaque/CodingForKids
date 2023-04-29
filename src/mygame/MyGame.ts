@@ -1,4 +1,4 @@
-import { BaseGame } from "./BaseGame";
+import { BaseGame } from "../framework/BaseGame";
 import { GameState } from "./GameState";
 
 export class MyGame extends BaseGame {

@@ -1,5 +1,5 @@
 import { Enemy } from "./Enemy";
-import { GameContext } from "./GameContext";
+import { GameContext } from "../framework/GameContext";
 import { Player } from "./Player";
 
 export class GameState {
