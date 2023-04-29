@@ -1,6 +1,6 @@
 import { GameCanvas } from "./GameCanvas";
 
-export class RenderingEngine {
+export class DrawingToolbox {
     gameCanvas: GameCanvas;
 
     constructor(gameCanvas: GameCanvas) {
@@ -15,6 +15,19 @@ export class RenderingEngine {
         ctx.strokeStyle = typeof strokeStyle !== 'undefined' ? strokeStyle : "black";
         ctx.stroke();
     }
+
+    drawTriangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, strokeStyle?: string, fillStyle?: string): void {
+        var ctx = this.gameCanvas.ctx;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x3, y3);
+        ctx.lineTo(x1, y1);
+        ctx.fillStyle = typeof fillStyle !== 'undefined' ? fillStyle : "white";
+        ctx.fill();
+        ctx.strokeStyle = typeof strokeStyle !== 'undefined' ? strokeStyle : "black";
+        ctx.stroke();
+    }    
 
     drawRect(x: number, y: number, width: number, height: number, strokeStyle?: string, fillStyle?: string): void {
         var ctx = this.gameCanvas.ctx;

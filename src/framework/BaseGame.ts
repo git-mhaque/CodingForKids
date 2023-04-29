@@ -1,17 +1,17 @@
 import { GameCanvas } from "./GameCanvas";
 import { GameContext } from "./GameContext";
-import { RenderingEngine } from "./RenderingEngine";
+import { DrawingToolbox } from "./DrawingToolbox";
 
 export abstract class BaseGame {
     private canvasId: string = "gameCanvas";
     private gameCanvas: GameCanvas;
-    private renderer: RenderingEngine;
+    private renderer: DrawingToolbox;
     private gameContext: GameContext;
     private fps: number = 30;
     
     constructor() {
         this.gameCanvas = new GameCanvas(this.canvasId);
-        this.renderer = new RenderingEngine(this.gameCanvas);
+        this.renderer = new DrawingToolbox(this.gameCanvas);
         this.gameContext = new GameContext(this.gameCanvas.width, this.gameCanvas.height, this.renderer);
 
         this.initKeyboardInput(this);
@@ -55,7 +55,7 @@ export abstract class BaseGame {
     }
     abstract initState(): void;
     abstract updateState(): void;
-    abstract updateView(toolbox: RenderingEngine): void;
+    abstract updateView(toolbox: DrawingToolbox): void;
     abstract handleUpArrow(): void;
     abstract handleDownArrow(): void;
     abstract handleLeftArrow(): void;

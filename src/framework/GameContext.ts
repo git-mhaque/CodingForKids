@@ -1,11 +1,11 @@
-import { RenderingEngine } from "./RenderingEngine";
+import { DrawingToolbox } from "./DrawingToolbox";
 
 export class GameContext {
     width: number;
     height: number;
-    renderer: RenderingEngine;
+    renderer: DrawingToolbox;
 
-    constructor(width: number, height: number, renderer: RenderingEngine) {
+    constructor(width: number, height: number, renderer: DrawingToolbox) {
         this.width = width;
         this.height = height;
         this.renderer = renderer;

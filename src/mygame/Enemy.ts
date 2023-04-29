@@ -1,4 +1,4 @@
-import { RenderingEngine } from "../framework/RenderingEngine";
+import { DrawingToolbox } from "../framework/DrawingToolbox";
 
 export class Enemy {
     x: number;
@@ -6,9 +6,9 @@ export class Enemy {
     xDelta: number;
     yDelta: number;
     radius: number;
-    renderer: RenderingEngine;
+    renderer: DrawingToolbox;
 
-    constructor (renderer: RenderingEngine) {
+    constructor (renderer: DrawingToolbox) {
         this.renderer = renderer;
     }
 
