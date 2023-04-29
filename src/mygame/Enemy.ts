@@ -6,13 +6,13 @@ export class Enemy {
     xDelta: number;
     yDelta: number;
     radius: number;
-    renderer: DrawingToolbox;
+    toolbox: DrawingToolbox;
 
     constructor (renderer: DrawingToolbox) {
-        this.renderer = renderer;
+        this.toolbox = renderer;
     }
 
     draw(): void {
-        this.renderer.drawCircle(this.x, this.y, this.radius, 'black', '#ff0000');
+        this.toolbox.drawCircle(this.x, this.y, this.radius, 'black', 'red');
     }
 }
