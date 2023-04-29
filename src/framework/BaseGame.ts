@@ -5,14 +5,14 @@ import { DrawingToolbox } from "./DrawingToolbox";
 export abstract class BaseGame {
     private canvasId: string = "gameCanvas";
     private gameCanvas: GameCanvas;
-    private renderer: DrawingToolbox;
+    private toolbox: DrawingToolbox;
     private gameContext: GameContext;
     private fps: number = 30;
     
     constructor() {
         this.gameCanvas = new GameCanvas(this.canvasId);
-        this.renderer = new DrawingToolbox(this.gameCanvas);
-        this.gameContext = new GameContext(this.gameCanvas.width, this.gameCanvas.height, this.renderer);
+        this.toolbox = new DrawingToolbox(this.gameCanvas);
+        this.gameContext = new GameContext(this.gameCanvas.width, this.gameCanvas.height, this.toolbox);
 
         this.initKeyboardInput(this);
         this.initGameLoop(this);
@@ -51,7 +51,7 @@ export abstract class BaseGame {
 
     update(): void {
         this.updateState();
-        this.updateView(this.renderer);
+        this.updateView(this.toolbox);
     }
     abstract initState(): void;
     abstract updateState(): void;

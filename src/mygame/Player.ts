@@ -5,14 +5,14 @@ export class Player {
     private y: number;
     private speed: number;
     private radius: number;
-    private renderer: DrawingToolbox;
+    private toolbox: DrawingToolbox;
 
-    constructor(x: number, y: number, speed: number, radius: number, renderer: DrawingToolbox) {
+    constructor(x: number, y: number, speed: number, radius: number, toolbox: DrawingToolbox) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.radius = radius;
-        this.renderer = renderer;
+        this.toolbox = toolbox;
     }
 
     moveUp(): void {
@@ -32,7 +32,7 @@ export class Player {
     }
 
     draw(): void {
-        this.renderer.drawCircle(this.x, this.y, this.radius, 'black', '#0000ff');
+        this.toolbox.drawCircle(this.x, this.y, this.radius, 'black', 'blue');
     }
 
     hasCollision(cx: number, cy: number, radius: number): boolean {
