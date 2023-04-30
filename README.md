@@ -27,9 +27,9 @@ We will be building a single-player 2D game with multiple moving enemies and tre
 
 |Lessons   | Contents                               | Concepts                             |
 |----------|----------------------------------------|--------------------------------------|
-|Lesson 1  | Drawing some basic shapes              | IDE, source code, built-in functions |
-|Lesson 2  | Adding details to shapes               | Built-in functions                   |
-|Lesson 3  | Moving a basic shape                   | Variables and keyboard input         |
+|Lesson 1  | Setting the coding environment         | IDE, source code                     |
+|Lesson 2  | Drawing some basic shapes              | 2D coordinates, built-in functions   |
+|Lesson 3  | Moving a basic shape                   | Variables, keyboard input            |
 |Lesson 4  | Restricting the movement of a shape    | Control flow and conditional logic   |
 |Lesson 5  | Creating a complex shape               | Functions                            |
 |Lesson 6  | Adding more movements                  | Class and object                     |  
@@ -65,4 +65,5 @@ We will be building a single-player 2D game with multiple moving enemies and tre
     npm run start
 ```
 9. The above commands will open a page on the browser which will automatically refresh as you change your code. 
-10. Follow the lesson guides starting with `lesson_01` and have fun!   
+10. Open the `LessonGuide.md` and start with `Lesson 01 Guide.` 
+11. Have fun!   

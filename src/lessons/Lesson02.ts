@@ -1,7 +1,7 @@
 import { BaseGame } from "../framework/BaseGame";
 import { DrawingToolbox } from "../framework/DrawingToolbox";
 
-export class MyFunGame extends BaseGame {
+export class Lesson02 extends BaseGame {
     initState(): void {
     }
 
